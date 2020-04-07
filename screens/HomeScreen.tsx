@@ -1,9 +1,10 @@
+import React, { useEffect } from 'react'
 import { get } from 'lodash/fp'
-import React from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 import { View, Text, Button, StyleSheet } from 'react-native'
 import { gql } from 'apollo-boost'
 import { useMutation } from '@apollo/react-hooks'
+import socketClient from '@/lib/socket'
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +31,11 @@ const AUTHENTICATE = gql`
 export default function HomeScreen() {
   const [authenticate, { loading, error, data }] = useMutation(AUTHENTICATE)
 
+  useEffect(() => {
+    socketClient.on('response', (response) => console.log(response))
+    socketClient.emit('message', 'this is my message')
+  }, [])
+
   const onPress = async () => {
     const response = await authenticate({
       variables: { email: 'vcpablo@gmail.com', password: '123' }
@@ -39,7 +45,6 @@ export default function HomeScreen() {
 
     if (token) {
       await AsyncStorage.setItem('@token', token)
-      // navigation.navigate('Home')
     }
   }
 
