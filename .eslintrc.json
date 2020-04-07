@@ -107,7 +107,16 @@
       }
     ],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "import/order": "off"
   },
-  "plugins": ["html", "prettier", "react-hooks"]
+  "plugins": ["html", "prettier", "react-hooks", "import"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./"]],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }
